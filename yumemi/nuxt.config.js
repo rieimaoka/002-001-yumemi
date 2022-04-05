@@ -1,3 +1,5 @@
+require('dotenv').config()
+const { RESAS_API_KEY } = process.env
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -16,7 +18,11 @@ export default {
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
-
+  publicRuntimeConfig: {
+    apiKey: process.env.RESAS_API_KEY,
+    baseURL: process.env.BASE_URL || 'http://locahost:3000',
+    apiURL: process.env.API_URL || 'http://localhost:3333',
+  },
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
 
@@ -32,6 +38,7 @@ export default {
     '@nuxt/typescript-build',
     // https://go.nuxtjs.dev/stylelint
     '@nuxtjs/stylelint-module',
+    '@nuxtjs/dotenv',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
