@@ -2,12 +2,19 @@
   <div>
     <ul>
       <li v-for="(item, index) in this.prefs">
-        <label>
-          <input type="checkbox" :value="item.prefCode" />
+        <label :for="`pref-${item.prefCode}`">
+          <input
+            :id="`pref-${item.prefCode}`"
+            type="checkbox"
+            :value="item.prefCode"
+            v-model="checkedPrefs"
+            @change="drawGraph(item)"
+          />
           <span>{{ item.prefName }}</span>
         </label>
       </li>
     </ul>
+    <p>{{ checkedPrefs }}</p>
   </div>
 </template>
 
@@ -19,6 +26,7 @@ export default Vue.extend({
   data() {
     return {
       prefs: [],
+      checkedPrefs: [],
     }
   },
   async asyncData({ $axios, $config }) {
@@ -31,6 +39,22 @@ export default Vue.extend({
       .then((res) => {
         return { prefs: res.result }
       })
+  },
+  methods: {
+    drawGraph(item) {
+      const populationData = this.$axios
+        .$get(
+          `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${item.prefCode}`,
+          {
+            headers: {
+              'X-API-KEY': this.$config.apiKey,
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res.result.data[0].data)
+        })
+    },
   },
 })
 </script>
