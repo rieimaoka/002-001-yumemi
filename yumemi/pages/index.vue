@@ -15,11 +15,16 @@
       </li>
     </ul>
     <p>{{ checkedPrefs }}</p>
+    <chart
+      :chartLabels="yearLabels"
+      :chartPopulationData="populationData"
+    ></chart>
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
+import Chart from '../components/Chart'
 
 export default Vue.extend({
   name: 'IndexPage',
@@ -27,7 +32,12 @@ export default Vue.extend({
     return {
       prefs: [],
       checkedPrefs: [],
+      yearLabels: [],
+      populationData: [],
     }
+  },
+  components: {
+    Chart,
   },
   async asyncData({ $axios, $config }) {
     return await $axios
@@ -52,10 +62,20 @@ export default Vue.extend({
           }
         )
         .then((res) => {
-          console.log(res.result.data[0].data)
-          for (let i = 0; i < res.result.data[0].data.length - 1; i++) {
-            console.log(res.result.data[0].data[i].value)
+          const singleData = []
+          if (this.yearLabels.length == 0) {
+            for (let i = 0; i < res.result.data[0].data.length - 1; i++) {
+              this.yearLabels.push(res.result.data[0].data[i].year)
+            }
           }
+          for (let i = 0; i < res.result.data[0].data.length - 1; i++) {
+            singleData.push(res.result.data[0].data[i].value)
+          }
+          this.populationData.push({
+            label: item.prefName,
+            data: singleData,
+            type: 'line',
+          })
         })
     },
   },
