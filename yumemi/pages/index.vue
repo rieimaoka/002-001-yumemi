@@ -53,6 +53,9 @@ export default Vue.extend({
         )
         .then((res) => {
           console.log(res.result.data[0].data)
+          for (let i = 0; i < res.result.data[0].data.length - 1; i++) {
+            console.log(res.result.data[0].data[i].value)
+          }
         })
     },
   },
