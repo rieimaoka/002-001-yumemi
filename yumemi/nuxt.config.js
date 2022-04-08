@@ -24,7 +24,7 @@ export default {
     apiURL: process.env.API_URL || 'http://localhost:3333',
   },
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [],
+  css: ['ress'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [],
@@ -39,6 +39,15 @@ export default {
     // https://go.nuxtjs.dev/stylelint
     '@nuxtjs/stylelint-module',
     '@nuxtjs/dotenv',
+    [
+      '@nuxtjs/google-fonts',
+      {
+        families: { 'Noto+Sans+JP': 400 },
+        display: 'block',
+        download: true,
+        inject: true,
+      },
+    ],
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
