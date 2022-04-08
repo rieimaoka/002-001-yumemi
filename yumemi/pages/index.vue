@@ -14,7 +14,6 @@
         </label>
       </li>
     </ul>
-    <p>{{ checkedPrefs }}</p>
     <chart
       :chartLabels="yearLabels"
       :chartPopulationData="populationData"
@@ -34,6 +33,7 @@ export default Vue.extend({
       checkedPrefs: [],
       yearLabels: [],
       populationData: [],
+      populationAllData: [],
     }
   },
   components: {
@@ -52,31 +52,53 @@ export default Vue.extend({
   },
   methods: {
     drawGraph(item) {
-      const populationData = this.$axios
-        .$get(
-          `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${item.prefCode}`,
-          {
-            headers: {
-              'X-API-KEY': this.$config.apiKey,
-            },
-          }
-        )
-        .then((res) => {
-          const singleData = []
-          if (this.yearLabels.length == 0) {
-            for (let i = 0; i < res.result.data[0].data.length - 1; i++) {
-              this.yearLabels.push(res.result.data[0].data[i].year)
+      // APIリクエストは1度だけ
+      if (
+        this.populationAllData.findIndex(
+          (data) => data.label === item.prefName
+        ) < 0
+      ) {
+        const populationData = this.$axios
+          .$get(
+            `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${item.prefCode}`,
+            {
+              headers: {
+                'X-API-KEY': this.$config.apiKey,
+              },
             }
-          }
-          for (let i = 0; i < res.result.data[0].data.length - 1; i++) {
-            singleData.push(res.result.data[0].data[i].value)
-          }
-          this.populationData.push({
-            label: item.prefName,
-            data: singleData,
-            type: 'line',
+          )
+          .then((res) => {
+            const singleData = []
+            const resData = res.result.data[0].data
+            if (this.yearLabels.length == 0) {
+              resData.forEach((val, index) => {
+                this.yearLabels.push(val.year)
+              })
+            }
+            resData.forEach((val, index) => {
+              singleData.push(val.value)
+            })
+            this.populationAllData.push({
+              label: item.prefName,
+              data: singleData,
+              type: 'line',
+            })
+            this.refreshData()
           })
-        })
+      } else {
+        this.refreshData()
+      }
+    },
+    refreshData() {
+      this.populationData = []
+      this.checkedPrefs.sort()
+      this.checkedPrefs.forEach((code, index) => {
+        const targetPref = this.prefs.filter((n) => n.prefCode === code)
+        const targetPrefName = targetPref[0].prefName
+        this.populationData.push(
+          this.populationAllData.filter((n) => n.label === targetPrefName)[0]
+        )
+      })
     },
   },
 })
