@@ -41,7 +41,7 @@ export default Vue.extend({
   },
   async asyncData({ $axios, $config }) {
     return await $axios
-      .$get('https://opendata.resas-portal.go.jp/api/v1/prefectures', {
+      .$get(`${$config.apiURL}/prefectures`, {
         headers: {
           'X-API-KEY': $config.apiKey,
         },
@@ -60,7 +60,7 @@ export default Vue.extend({
       ) {
         const populationData = this.$axios
           .$get(
-            `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${item.prefCode}`,
+            `${this.$config.apiURL}/population/composition/perYear?prefCode=${item.prefCode}`,
             {
               headers: {
                 'X-API-KEY': this.$config.apiKey,
