@@ -43,9 +43,6 @@ export default {
       '@nuxtjs/google-fonts',
       {
         families: { 'Noto+Sans+JP': 400 },
-        display: 'block',
-        download: true,
-        inject: true,
       },
     ],
   ],
