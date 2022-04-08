@@ -40,15 +40,9 @@ export default Vue.extend({
     Chart,
   },
   async asyncData({ $axios, $config }) {
-    return await $axios
-      .$get(`${$config.apiURL}/prefectures`, {
-        headers: {
-          'X-API-KEY': $config.apiKey,
-        },
-      })
-      .then((res) => {
-        return { prefs: res.result }
-      })
+    return await $axios.$get(`${$config.apiURL}/prefectures`).then((res) => {
+      return { prefs: res.result }
+    })
   },
   methods: {
     drawGraph(item) {
@@ -60,12 +54,7 @@ export default Vue.extend({
       ) {
         const populationData = this.$axios
           .$get(
-            `${this.$config.apiURL}/population/composition/perYear?prefCode=${item.prefCode}`,
-            {
-              headers: {
-                'X-API-KEY': this.$config.apiKey,
-              },
-            }
+            `${this.$config.apiURL}/population/composition/perYear?prefCode=${item.prefCode}`
           )
           .then((res) => {
             const singleData = []
