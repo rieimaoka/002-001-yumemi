@@ -1,5 +1,6 @@
 <script>
 import { Bar, mixins } from 'vue-chartjs'
+import { brewer } from 'chartjs-plugin-colorschemes'
 
 export default {
   extends: Bar,
@@ -8,7 +9,13 @@ export default {
   props: ['chartLabels', 'chartPopulationData'],
   data() {
     return {
-      options: {},
+      options: {
+        plugin: {
+          colorschemes: {
+            scheme: 'brewer.Paired3',
+          },
+        },
+      },
     }
   },
   methods: {
