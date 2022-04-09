@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <ul>
+  <div class="container">
+    <p class="heading">都道府県</p>
+    <ul class="pref-list">
       <li v-for="(item, index) in this.prefs">
         <label :for="`pref-${item.prefCode}`">
           <input
@@ -14,6 +15,7 @@
         </label>
       </li>
     </ul>
+    <p class="heading">人口</p>
     <chart
       :chartLabels="yearLabels"
       :chartPopulationData="populationData"
@@ -92,3 +94,36 @@ export default Vue.extend({
   },
 })
 </script>
+
+<style>
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 90%;
+}
+
+label {
+  cursor: pointer;
+}
+
+.container {
+  width: 90vw;
+  margin: auto;
+}
+
+.heading {
+  margin: 2rem 0 1rem;
+}
+
+.pref-list {
+  display: flex;
+  flex-wrap: wrap;
+  max-height: 25vh;
+  overflow: auto;
+}
+
+.pref-list li {
+  list-style: none;
+  min-width: 5rem;
+  margin: 0.1rem 1rem 0.1rem 0;
+}
+</style>
