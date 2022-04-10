@@ -39,9 +39,9 @@ firebase deploy --only hosting
 # eslint
 
 - prettier
-- (chart.js)[https://www.chartjs.org/]
-  - (vue-chartjs)[https://vue-chartjs.org/]
-  - (chartjs-plugin-colorschemes)[https://nagix.github.io/chartjs-plugin-colorschemes/ja/]
+- [chart.js](https://www.chartjs.org/)
+  - [vue-chartjs](https://vue-chartjs.org/)
+  - [chartjs-plugin-colorschemes](https://nagix.github.io/chartjs-plugin-colorschemes/ja/)
 
 ### CSS に関するライブラリ
 
