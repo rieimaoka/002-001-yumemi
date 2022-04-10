@@ -52,4 +52,4 @@ firebase deploy --only hosting
 
 ## API
 
-- (RESAS API)[https://opendata.resas-portal.go.jp/]
+- [RESAS API](https://opendata.resas-portal.go.jp/)
