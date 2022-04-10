@@ -24,7 +24,7 @@ export default {
     apiURL: process.env.API_URL || 'http://localhost:3333',
   },
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['ress'],
+  css: ['ress', '@/styles/app.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: ['@/plugins/resas'],

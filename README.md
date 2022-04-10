@@ -19,6 +19,8 @@ $ yarn generate
 
 ## デプロイについて
 
+firebase にホスティングしています。
+
 ```bash
 ## local emulator test
 firebase emulators:start;
@@ -37,9 +39,9 @@ firebase deploy --only hosting
 # eslint
 
 - prettier
-- chart.js
-  - vue-chartjs
-  - chartjs-plugin-colorschemes
+- (chart.js)[https://www.chartjs.org/]
+  - (vue-chartjs)[https://vue-chartjs.org/]
+  - (chartjs-plugin-colorschemes)[https://nagix.github.io/chartjs-plugin-colorschemes/ja/]
 
 ### CSS に関するライブラリ
 

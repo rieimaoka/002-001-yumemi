@@ -9,7 +9,7 @@
             type="checkbox"
             :value="item.prefCode"
             v-model="checkedPrefs"
-            @change="drawGraph(item)"
+            @change="changePrefCheckbox(item)"
           />
           <span>{{ item.prefName }}</span>
         </label>
@@ -42,13 +42,19 @@ export default Vue.extend({
     Chart,
   },
   async asyncData({ $axios, $config }) {
+    //  RESAS(地域経済分析システム) APIの「都道府県一覧」からAPIを取得する
     return await $axios.$get(`${$config.apiURL}/prefectures`).then((res) => {
       return { prefs: res.result }
     })
   },
   methods: {
-    drawGraph(item) {
-      // APIリクエストは1度だけ
+    //
+    changePrefCheckbox(item) {
+      // 都道府県にチェックを入れると、RESAS APIから選択された都道府県の「人口構成」を取得する
+      // data = {
+      //  labels: this.yearLabels,
+      //  datasets: this.chartPopulationData,
+      // }
       if (
         this.populationAllData.findIndex(
           (data) => data.label === item.prefName
@@ -61,11 +67,13 @@ export default Vue.extend({
           .then((res) => {
             const singleData = []
             const resData = res.result.data[0].data
+            // 横軸のラベルを設置する(初めてチェックボックスをチェックした時だけ)
             if (this.yearLabels.length == 0) {
               resData.forEach((val, index) => {
                 this.yearLabels.push(val.year)
               })
             }
+            // 都道府県のデータを詰める
             resData.forEach((val, index) => {
               singleData.push(val.value)
             })
@@ -81,6 +89,7 @@ export default Vue.extend({
       }
     },
     refreshData() {
+      // 人口構成APIレスポンスから、X軸:年、Y軸:人口数の折れ線グラフを動的に生成して表示する
       this.populationData = []
       this.checkedPrefs.sort()
       this.checkedPrefs.forEach((code, index) => {
@@ -94,36 +103,3 @@ export default Vue.extend({
   },
 })
 </script>
-
-<style>
-body {
-  font-family: 'Noto Sans JP', sans-serif;
-  font-size: 90%;
-}
-
-label {
-  cursor: pointer;
-}
-
-.container {
-  width: 90vw;
-  margin: auto;
-}
-
-.heading {
-  margin: 2rem 0 1rem;
-}
-
-.pref-list {
-  display: flex;
-  flex-wrap: wrap;
-  max-height: 25vh;
-  overflow: auto;
-}
-
-.pref-list li {
-  list-style: none;
-  min-width: 5rem;
-  margin: 0.1rem 1rem 0.1rem 0;
-}
-</style>
