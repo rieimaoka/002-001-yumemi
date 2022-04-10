@@ -36,8 +36,7 @@ firebase deploy --only hosting
 
 ### JavaScript ライブラリ
 
-# eslint
-
+- eslint
 - prettier
 - [chart.js](https://www.chartjs.org/)
   - [vue-chartjs](https://vue-chartjs.org/)
